@@ -9,6 +9,9 @@ public class GameResources {
     public static final String BLACKOUT_FULL_IMG_PATH = "textures/blackout_full.png";
     public static final String BLACKOUT_TOP_IMG_PATH = "textures/blackout_top.png";
     public static final String BLACKOUT_MIDDLE_IMG_PATH = "textures/blackout_middle.png";
+    public static final String SHIP_BASE_ENEMY = "textures/ship_base.png";
+    public static final String PLANET = "textures/planet.png";
+    public static final String PLANET_BURN = "textures/burnt_planet.png";
 
     public static final String BUTTON_SHORT_BG_IMG_PATH = "textures/button_background_short.png";
     public static final String BUTTON_LONG_BG_IMG_PATH = "textures/button_background_long.png";

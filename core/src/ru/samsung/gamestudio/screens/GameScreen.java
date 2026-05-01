@@ -29,6 +29,8 @@ public class GameScreen extends ScreenAdapter {
     // PLAY state UI
     MovingBackgroundView backgroundView;
     ImageView topBlackoutView;
+    ImageView base_ship;
+    ImageView planet;
     LiveView liveView;
     TextView scoreTextView;
     ButtonView pauseButton;
@@ -69,7 +71,8 @@ public class GameScreen extends ScreenAdapter {
                 46, 54,
                 GameResources.PAUSE_IMG_PATH
         );
-
+        base_ship = new ImageView(0, 1050, GameResources.SHIP_BASE_ENEMY, GameSettings.SCREEN_WIDTH);
+        planet = new ImageView(-150, -500, GameResources.PLANET, GameSettings.SCREEN_WIDTH + 300);
         fullBlackoutView = new ImageView(0, 0, GameResources.BLACKOUT_FULL_IMG_PATH);
         pauseTextView = new TextView(myGdxGame.largeWhiteFont, 282, 842, "Pause");
         homeButton = new ButtonView(
@@ -131,7 +134,9 @@ public class GameScreen extends ScreenAdapter {
             }
 
             if (!shipObject.isAlive()) {
+                planet = new ImageView(-150, -500, GameResources.PLANET_BURN, GameSettings.SCREEN_WIDTH + 300);
                 gameSession.endGame();
+                if (myGdxGame.audioManager.isSoundOn) myGdxGame.audioManager.explosionSound.play();
                 recordsListView.setRecords(MemoryManager.loadRecordsTable());
             }
 
@@ -191,6 +196,8 @@ public class GameScreen extends ScreenAdapter {
         for (TrashObject trash : trashArray) trash.draw(myGdxGame.batch);
         shipObject.draw(myGdxGame.batch);
         for (BulletObject bullet : bulletArray) bullet.draw(myGdxGame.batch);
+        base_ship.draw(myGdxGame.batch);
+        planet.draw(myGdxGame.batch);
         topBlackoutView.draw(myGdxGame.batch);
         scoreTextView.draw(myGdxGame.batch);
         liveView.draw(myGdxGame.batch);
@@ -216,6 +223,11 @@ public class GameScreen extends ScreenAdapter {
         for (int i = 0; i < trashArray.size(); i++) {
 
             boolean hasToBeDestroyed = !trashArray.get(i).isAlive() || !trashArray.get(i).isInFrame();
+
+            if (trashArray.get(i).isAlive() && !trashArray.get(i).isInFrame()){
+                shipObject.hit();
+            }
+
 
             if (!trashArray.get(i).isAlive()) {
                 gameSession.destructionRegistration();

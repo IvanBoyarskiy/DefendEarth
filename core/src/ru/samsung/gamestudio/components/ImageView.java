@@ -13,7 +13,24 @@ public class ImageView extends View {
         this.width = texture.getWidth() ;
         this.height = texture.getHeight() ;
     }
-
+    public ImageView(float x, float y, String imagePath, float width) {
+        super(x, y);
+        texture = new Texture(imagePath);
+        this.width = width;
+        this.height = texture.getHeight() ;
+    }
+    public ImageView(float x, float y, String imagePath, float width, float height) {
+        super(x, y);
+        texture = new Texture(imagePath);
+        this.width = width;
+        this.height = height;
+    }
+    public float getHeight(){
+        return this.height;
+    }
+    public float getWidth(){
+        return this.width;
+    }
     @Override
     public void draw(SpriteBatch batch) {
         batch.draw(texture, x, y, width, height);
