@@ -31,10 +31,18 @@ public class ButtonView extends View {
         textY = y + (height + textHeight) / 2;
     }
 
+    public float getWidth(){
+        return this.width;
+    }
+
     public ButtonView(float x, float y, float width, float height, String texturePath) {
         super(x, y, width, height);
 
         texture  = new Texture(texturePath);
+    }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 
     @Override

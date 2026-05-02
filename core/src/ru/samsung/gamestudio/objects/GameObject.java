@@ -58,6 +58,10 @@ public class GameObject {
         body.setTransform(body.getPosition().x, y * SCALE, 0);
     }
 
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
+
     private Body createBody(float x, float y, World world) {
         BodyDef def = new BodyDef();
         def.type = BodyDef.BodyType.DynamicBody;

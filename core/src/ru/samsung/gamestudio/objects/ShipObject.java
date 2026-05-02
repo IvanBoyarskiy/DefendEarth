@@ -23,6 +23,14 @@ public class ShipObject extends GameObject {
         return livesLeft;
     }
 
+    public void plusLives() {
+        this.livesLeft += 1;
+    }
+
+    public boolean isFullHP(){
+        return livesLeft >= 3;
+    }
+
     @Override
     public void draw(SpriteBatch batch) {
         putInFrame();

@@ -3,6 +3,7 @@ package ru.samsung.gamestudio.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ru.samsung.gamestudio.*;
@@ -27,8 +28,13 @@ public class GameScreen extends ScreenAdapter {
     ContactManager contactManager;
 
     // PLAY state UI
+
+    final int count_progress = 100;
+    int count_progress_now = 0;
     MovingBackgroundView backgroundView;
     ImageView topBlackoutView;
+    ImageView botBlackoutView;
+    ProgressBarView healing;
     ImageView base_ship;
     ImageView planet;
     LiveView liveView;
@@ -64,6 +70,8 @@ public class GameScreen extends ScreenAdapter {
 
         backgroundView = new MovingBackgroundView(GameResources.BACKGROUND_IMG_PATH);
         topBlackoutView = new ImageView(0, 1180, GameResources.BLACKOUT_TOP_IMG_PATH);
+        botBlackoutView = new ImageView(0, 0, GameResources.BLACKOUT_TOP_IMG_PATH);
+        healing = new ProgressBarView(25, (int) (botBlackoutView.getHeight() / 2), GameSettings.SCREEN_WIDTH - 50, 25, 10, GameResources.PROGRESS_BG, GameResources.PROGRESS);
         liveView = new LiveView(305, 1215);
         scoreTextView = new TextView(myGdxGame.commonWhiteFont, 50, 1215);
         pauseButton = new ButtonView(
@@ -121,7 +129,18 @@ public class GameScreen extends ScreenAdapter {
                 );
                 trashArray.add(trashObject);
             }
-
+            if (healing.isFull()){
+                if (!shipObject.isFullHP()){
+                    shipObject.plusLives();
+                    healing.nullProgress();
+                }
+            } else {
+                if (count_progress_now == 0){
+                    healing.plusProgress();
+                    count_progress_now = count_progress;
+                }
+                count_progress_now--;
+            }
             if (shipObject.needToShoot()) {
                 BulletObject laserBullet = new BulletObject(
                         shipObject.getX(), shipObject.getY() + shipObject.height / 2,
@@ -198,6 +217,8 @@ public class GameScreen extends ScreenAdapter {
         for (BulletObject bullet : bulletArray) bullet.draw(myGdxGame.batch);
         base_ship.draw(myGdxGame.batch);
         planet.draw(myGdxGame.batch);
+        botBlackoutView.draw(myGdxGame.batch);
+        healing.draw(myGdxGame.batch);
         topBlackoutView.draw(myGdxGame.batch);
         scoreTextView.draw(myGdxGame.batch);
         liveView.draw(myGdxGame.batch);
